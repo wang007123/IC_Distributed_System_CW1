@@ -27,7 +27,8 @@ defp next config, client_num, replicas, sent, quorum do
     IO.puts "  Client #{client_num} going to sleep, sent = #{sent}"
     Process.sleep :infinity
 
-  after config.client_sleep ->
+  after config.client_sleep -> #each replicated server's database will
+                               #execute the same sequence of requests
     account1 = Enum.random 1 .. config.n_accounts
     account2 = Enum.random 1 .. config.n_accounts
     amount   = Enum.random 1 .. config.max_amount
@@ -56,3 +57,4 @@ defp receive_replies do
 end # receive_replies
 
 end # Client
+

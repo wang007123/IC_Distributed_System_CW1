@@ -9,7 +9,7 @@ def start do
   start(config.start_function, config)
 end # start/0
 
-defp start(:cluster_wait, _), do: :skip
+defp start(:cluster_wait, _), do: :skip #private function
 defp start(:cluster_start, config) do
   config = Configuration.node_id(config, "Multipaxos")
   Debug.starting(config)
@@ -25,7 +25,7 @@ defp start(:cluster_start, config) do
                [config, server_num, self()]
   end # for
 
-  server_modules =
+  server_modules =   #receive from server module
     for _ <- 1 .. config.n_servers do
       receive do { :MODULES, r, a, l } -> { r, a, l } end
     end # for
@@ -43,3 +43,4 @@ defp start(:cluster_start, config) do
 end # start
 
 end # Multipaxos
+

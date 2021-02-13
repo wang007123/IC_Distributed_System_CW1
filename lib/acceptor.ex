@@ -27,5 +27,4 @@ defmodule Acceptor do
         next config, ballot_num, accepted
     end
   end
-
 end

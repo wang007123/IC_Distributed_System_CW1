@@ -27,3 +27,4 @@ def start config, server_num, multipaxos do
 end # start
 
 end # Server
+

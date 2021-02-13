@@ -55,5 +55,7 @@ def params :debug3 do		# same as :default with debug_level: 3
 end
 
 # ADD YOUR OWN PARAMETER FUNCTIONS HERE
+WINDOW = 5 # slot
 
 end # module ----------------------------------------------------------------
+

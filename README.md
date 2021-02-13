@@ -1,2 +1,0 @@
-# IC_Distributed_System_CW1
-Imperial_College_London_Dsitributed_System_CW1

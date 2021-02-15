@@ -1,4 +1,4 @@
-
+# paper https://paxos.systems/how/#how
 # distributed algorithms, n.dulay, 29 jan 21
 # coursework, paxos made moderately complex
 

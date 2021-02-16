@@ -1,7 +1,7 @@
 defmodule Scout do
 
 def start config, leader, acceptors, ballot do
-	IO.puts "Scout created"
+	#IO.puts "Scout created"
 	for acceptor <- acceptors do
 		send acceptor, {:p1a, self(), ballot}
 	end
@@ -15,7 +15,7 @@ defp next config, waitfor, pvalues, ballot, leader, acceptors do
 		{:p1b, a, b,r} ->
 			#IO.inspect b
 			#O.inspect ballot
-			IO.puts "Scount receive p1b from Acceptors"
+			#IO.puts "Scount receive p1b from Acceptors"
 
 			if b == ballot do
 				#IO.puts "------a,b,r,pvalues,waitfor shown as below"
@@ -27,15 +27,15 @@ defp next config, waitfor, pvalues, ballot, leader, acceptors do
 				#IO.inspect pvalues
 				#IO.inspect waitfor
 				if 2* MapSet.size(waitfor) < length(acceptors) do
-					IO.puts "Scout sent adopted to leader"
+					#IO.puts "Scout sent adopted to leader"
 					send leader, {:adopted, b, pvalues}
 					exit(:normal)
 				else
-					IO.puts "Scout recursive"
+					#IO.puts "Scout recursive"
 		        	next config, waitfor, pvalues, ballot, leader, acceptors
 	      		end
 			else
-				IO.puts "Scout sent preempted to leader"
+				#IO.puts "Scout sent preempted to leader"
 				send leader, {:preempted, b}
             	send config.monitor, { :SCOUT_FINISHED, config.node_num }
 				exit(:normal)

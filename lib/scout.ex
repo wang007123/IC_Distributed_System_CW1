@@ -18,6 +18,8 @@ defp next config, waitfor, pvalues, ballot, leader, acceptors do
 				waitfor = MapSet.delete(waitfor,r)
 				#IO.inspect (IEx.Info.info(acceptors))
 				# IT SHOULD BE .... COMMENT FOR DEBUG
+				IO.puts "waitfor size is #{MapSet.size(waitfor)}"
+				IO.puts "acceptors length is #{length(acceptors)}"
 				if 2 * MapSet.size(waitfor) < length(acceptors) do
 				#if !(2 * MapSet.size(waitfor)) do
 					send leader, {:adopted, ballot, pvalues}

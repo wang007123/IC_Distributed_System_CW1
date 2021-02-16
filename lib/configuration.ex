@@ -29,6 +29,7 @@ def params :default do
   print_after:  1_000,		# print transaction log summary every print_after msecs
 
   crash_server: %{},
+  window:  5 # slot
   }
 end
 
@@ -54,8 +55,8 @@ def params :debug3 do		# same as :default with debug_level: 3
  _config = Map.put config, :debug_level, 3
 end
 
-# ADD YOUR OWN PARAMETER FUNCTIONS HERE
-WINDOW = 5 # slot
+# ADD YOUR OWN PARAMETER FUNCTIONS HERE default = 5
+#WINDOW = 1 # slot
 
 end # module ----------------------------------------------------------------
 

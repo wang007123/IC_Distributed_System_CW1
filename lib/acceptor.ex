@@ -1,10 +1,11 @@
 defmodule Acceptor do
 
   def start config do
+    IO.puts "Acceptor created"
     next config, -1, MapSet.new
   end
 
-  def next config, ballot_num, accepted do
+  defp next config, ballot_num, accepted do
     receive do
       {:p1a, identifier, ballot_temp} ->
         ballot_num = max(ballot_num, ballot_temp)
@@ -23,6 +24,7 @@ defmodule Acceptor do
         send identifier, {:p2b, self(), ballot_num}
         next config, ballot_num, accepted
       _ -> IO.puts "!Acceptor-next function received unexpected msg"
-    end
-  end
+    end # end receive
+    next config, ballot_num, accepted
+  end #end def
 end

@@ -15,8 +15,6 @@ defmodule Replica do
     receive do
       #replica receives :request
       {:CLIENT_REQUEST, command} ->
-        if config.debug == 1, do:
-          IO.puts "Replica received request from client"
         requests = MapSet.put(requests, command)
         #IO.puts "------"
         #IO.inspect requests
@@ -25,10 +23,8 @@ defmodule Replica do
         {slot_out, requests, proposals, decisions}
       #replica receives :decision 
       {:decision, slot_num, command} ->
-        if config.debug == 1 do
+        if config.debug == 1, do:
           IO.puts "replica received decision from commander"
-          IO.puts "adding slot_num #{slot_num} to decisions"
-        end
         decisions = Map.put(decisions, slot_num, command)
         {slot_out, requests, proposals} = while config, decisions, slot_out, proposals, requests, database
         {slot_out, requests, proposals, decisions} 
@@ -50,17 +46,13 @@ defmodule Replica do
         IO.puts "replica handling a request ----------------"
       #IO.inspect requests
       command = hd(MapSet.to_list(requests))
-      #IO.inspect command
-      #{client, cid, op} = command
-      #if Map.has_key?(decisions, slot_in - config.window) do
-      #  leaders = leaders
-      #end
+      if Map.has_key?(decisions, slot_in - config.window) do
+        #leaders = leaders
+      end
       { requests, proposals } =
       if !Map.has_key?(decisions, slot_in) do
         #IO.inspect requests
         requests = MapSet.delete(requests, command)
-        ##IO.puts "after delteing------------------------=="
-        #IO.inspect requests
         proposals = Map.put(proposals, slot_in, command)
         #replica send broadcast msg to all leaders
         if config.debug == 1, do:
@@ -108,7 +100,7 @@ defmodule Replica do
       while config, decisions, slot_out, proposals, requests, database
     else
         if config.debug == 1, do:
-          IO.puts "replica_while decisions don't have the command"
+          IO.puts "replica_while decisions don't have the command & wait"
         {slot_out, requests, proposals}
     end
 
@@ -122,10 +114,12 @@ defmodule Replica do
     executed = Enum.map(executed, fn({ _, cmd }) -> cmd end)
     executed = Enum.member?(executed, command)
     if executed do
+      #IO.puts "Replica_perform: the command did performed before"
       if config.debug == 1, do:
         IO.puts "Replica_perform: the command did performed before"
       slot_out + 1
     else
+      #IO.puts "Replica_perform: perform a new command"
       if config.debug == 1 do
         IO.puts "Replica_perform: perform a new command"
         IO.inspect transaction

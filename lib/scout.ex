@@ -18,7 +18,6 @@ defp next config, waitfor, pvalues, ballot, leader, acceptors do
 			#IO.inspect b
 			#IO.inspect ballot
 				IO.puts "Scount receive p1b from Acceptors"
-
 			if b == ballot do
 				#IO.puts "------a,b,r,pvalues,waitfor shown as below"
 				pvalues = MapSet.union(pvalues,r)

@@ -16,11 +16,8 @@ defmodule Leader do
   defp next config, ballot_num, active, proposals, acceptor, replicas do
     receive do
       {:propose, s, c} ->
-        # check {s,c} in proposal
-        if config.debug == 1, do: 
-          IO.puts "Leader received proposals (#{s}) from replica"
-        #IO.inspect proposals
-        #IO.inspect s
+        #if config.debug == 1, do: 
+         # IO.puts "Leader received proposals (#{s}) from replica"
         proposals =
           if !Map.has_key?(proposals, s) do
             if active == true do
@@ -35,23 +32,25 @@ defmodule Leader do
 
       {:adopted, ballot, pvals} ->
         proposals = update proposals, pmax MapSet.to_list(pvals)
-        #IO.inspect proposals
+        if config.debug == 1, do:
+            IO.puts " leader creating Commander"
         for {s, c} <- Map.to_list(proposals) do
-          if config.debug == 1, do:
-            IO.puts " leader creating Commander with slot (#{s},#{c}) from Scout"
           spawn Commander, :start, [config, self(), acceptor, replicas, {ballot, s, c}]
         end
         active = true
         next config, ballot, active, proposals, acceptor, replicas
 
       {:preempted, {r, leader}} ->
+        #sleep random time for live lock
         if config.debug == 1, do:
           IO.puts "Leader receive preempted"
+        #IO.puts "preempted"
         {ballot_num, active} =
           if {r, leader} > ballot_num do
-            active = false
             ballot_num = {r + 1, self()}
+            Process.sleep(Util.random(2000))
             spawn Scout, :start, [config,self(), acceptor, ballot_num]
+            active = false
             {ballot_num, active}
           else
             {ballot_num, active}
@@ -75,5 +74,3 @@ defmodule Leader do
     Map.merge y, x, fn _, c, _ -> c end
   end
 end
-
-

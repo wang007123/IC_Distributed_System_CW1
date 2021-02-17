@@ -50,7 +50,7 @@ defmodule Leader do
           if {r, leader} > ballot_num do
             active = false
             ballot_num = {r + 1, self()}
-            spawn Scout, :start, [self(), acceptor, ballot_num]
+            spawn Scout, :start, [config,self(), acceptor, ballot_num]
             {ballot_num, active}
           else
             {ballot_num, active}

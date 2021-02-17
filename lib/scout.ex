@@ -1,3 +1,4 @@
+# Zhegnhui Wang(zw2520) and Linshan Li(ll3720)
 defmodule Scout do
 
 def start config, leader, acceptors, ballot do

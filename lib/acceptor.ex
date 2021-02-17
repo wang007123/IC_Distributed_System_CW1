@@ -1,3 +1,4 @@
+# Zhegnhui Wang(zw2520) and Linshan Li(ll3720)
 defmodule Acceptor do
 
   def start config do
@@ -15,7 +16,7 @@ defmodule Acceptor do
         send identifier, {:p1b, self(), ballot_num, accepted}
         next config, ballot_num, accepted
 
-      {:p2a, identifier, {ballot_temp, _slot_num, _command} = pvalue} ->
+      {:p2a, identifier, {ballot_temp, _, _} = pvalue} ->
         accepted =
           if ballot_temp == ballot_num do
             MapSet.put(accepted, pvalue)

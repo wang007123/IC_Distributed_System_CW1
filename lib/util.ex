@@ -1,6 +1,4 @@
-
-# distributed algorithms, n.dulay, 29 jan 2021
-# coursework, paxos made moderately complex
+# Zhegnhui Wang(zw2520) and Linshan Li(ll3720)
 #
 # various helper functions
 

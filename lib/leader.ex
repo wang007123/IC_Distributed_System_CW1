@@ -2,7 +2,8 @@ defmodule Leader do
 
   def start config do
     ballot_num = {0, self()}
-    #IO.puts "Leader created"
+    if config.debug == 1, do:
+      IO.puts "Leader created"
     receive do
       {:BIND, acceptor, replica} ->
         spawn Scout, :start, [config, self(), acceptor, ballot_num]
@@ -16,7 +17,8 @@ defmodule Leader do
     receive do
       {:propose, s, c} ->
         # check {s,c} in proposal
-        ##IO.puts "Leader received proposals (#{s}) from replica"
+        if config.debug == 1, do: 
+          IO.puts "Leader received proposals (#{s}) from replica"
         #IO.inspect proposals
         #IO.inspect s
         proposals =
@@ -33,19 +35,18 @@ defmodule Leader do
 
       {:adopted, ballot, pvals} ->
         proposals = update proposals, pmax MapSet.to_list(pvals)
-        send config.monitor, { :SCOUT_FINISHED, config.node_num }
-        #IO.puts "creating Commander"
         #IO.inspect proposals
         for {s, c} <- Map.to_list(proposals) do
-
-          #IO.puts " leader creating Commander with slot (#{s},#{c}) from Scout"
+          if config.debug == 1, do:
+            IO.puts " leader creating Commander with slot (#{s},#{c}) from Scout"
           spawn Commander, :start, [config, self(), acceptor, replicas, {ballot, s, c}]
         end
         active = true
         next config, ballot, active, proposals, acceptor, replicas
 
       {:preempted, {r, leader}} ->
-        #IO.puts "Leader receive preempted"
+        if config.debug == 1, do:
+          IO.puts "Leader receive preempted"
         {ballot_num, active} =
           if {r, leader} > ballot_num do
             active = false

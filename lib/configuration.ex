@@ -18,18 +18,18 @@ end
 
 def params :default do
   %{
-  max_requests: 5_000,		# max requests each client will make
+  max_requests: 1,		# max requests each client will make
   client_sleep: 2,		# time (ms) to sleep before sending new request
   client_stop:  60_000,		# time (ms) to stop sending further requests
   client_send:	:broadcast,	# :round_robin, :quorum or :broadcast
 
   n_accounts:   100,		# number of active bank accounts
   max_amount:   1_000,		# max amount moved between accounts
-
   print_after:  1_000,		# print transaction log summary every print_after msecs
 
   crash_server: %{},
-  window:  5 # slot
+  window:  5, # slot
+  debug: 0,
   }
 end
 
@@ -39,7 +39,8 @@ def params :faster do
   config = params :default	# settings for faster throughput
  _config = Map.merge config,
   %{
-  # ADD YOUR OWN PARAMETERS HERE
+    # ADD YOUR OWN PARAMETERS HERE
+    debug: 1,
   }
 end
 

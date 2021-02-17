@@ -1,7 +1,8 @@
 defmodule Acceptor do
 
   def start config do
-    #IO.puts "Acceptor created"
+    if config.debug == 1, do:
+      IO.puts "Acceptor created"
     next config, -1, MapSet.new
   end
 
@@ -9,7 +10,8 @@ defmodule Acceptor do
     receive do
       {:p1a, identifier, ballot_temp} ->
         ballot_num = max(ballot_num, ballot_temp)
-        #IO.puts "send p1b to Scount"
+        if config.debug == 1, do:
+          IO.puts "Acceptor send p1b to Scount"
         send identifier, {:p1b, self(), ballot_num, accepted}
         next config, ballot_num, accepted
 
@@ -20,7 +22,8 @@ defmodule Acceptor do
           else
             accepted
           end
-        #IO.puts "send p2b to commander"
+        if config.debug == 1, do:
+          IO.puts "Accepter send p2b to commander"
         send identifier, {:p2b, self(), ballot_num}
         next config, ballot_num, accepted
       _ -> 

@@ -3,7 +3,8 @@ defmodule Replica do
   def start config, database do
     receive do
       {:BIND, leaders} ->
-        #IO.puts "Replica created"
+        if config.debug == 1, do:
+          IO.puts "Replica created"
         next config, 1, 1, MapSet.new, %{}, %{}, leaders, database
     end
   end
@@ -14,18 +15,21 @@ defmodule Replica do
     receive do
       #replica receives :request
       {:CLIENT_REQUEST, command} ->
-        ##IO.puts "Replica received request from client"
+        if config.debug == 1, do:
+          IO.puts "Replica received request from client"
         requests = MapSet.put(requests, command)
-        ##IO.puts "------"
+        #IO.puts "------"
+        #IO.inspect requests
         #IO.inspect MapSet.size(requests)
         send config.monitor, { :CLIENT_REQUEST, config.node_num }
         {slot_out, requests, proposals, decisions}
       #replica receives :decision 
       {:decision, slot_num, command} ->
-        ##IO.puts "replica received decision from commander"
-        ##IO.puts "adding slot_num #{slot_num} to decisions"
+        if config.debug == 1 do
+          IO.puts "replica received decision from commander"
+          IO.puts "adding slot_num #{slot_num} to decisions"
+        end
         decisions = Map.put(decisions, slot_num, command)
-        send config.monitor, { :COMMANDER_FINISHED, config.node_num }
         {slot_out, requests, proposals} = while config, decisions, slot_out, proposals, requests, database
         {slot_out, requests, proposals, decisions} 
       _ -> 
@@ -42,17 +46,15 @@ defmodule Replica do
  #{slot_in, requests, proposals}
   defp propose config, slot_in, slot_out, requests, decisions, proposals, leaders do
     if (slot_in < (slot_out + config.window)) and (MapSet.size(requests) > 0) do
-      ##IO.puts "replica handling a request ----------------"
-      ##IO.puts "cheking Replica_propose"
+      if config.debug == 1, do:
+        IO.puts "replica handling a request ----------------"
       #IO.inspect requests
       command = hd(MapSet.to_list(requests))
       #IO.inspect command
       #{client, cid, op} = command
-
       #if Map.has_key?(decisions, slot_in - config.window) do
       #  leaders = leaders
       #end
-
       { requests, proposals } =
       if !Map.has_key?(decisions, slot_in) do
         #IO.inspect requests
@@ -61,7 +63,8 @@ defmodule Replica do
         #IO.inspect requests
         proposals = Map.put(proposals, slot_in, command)
         #replica send broadcast msg to all leaders
-        #IO.puts "replica broadcast command to all leader"
+        if config.debug == 1, do:
+          IO.puts "replica broadcast command to all leader"
         for leader <- leaders do
           send leader, {:propose, slot_in, command}
         end
@@ -81,7 +84,8 @@ defmodule Replica do
   defp while config, decisions, slot_out, proposals, requests, database do
     # {slot_out, c} in decision, :decision is MapSet,
     # check the key(slot_out) and get the command
-    ##IO.puts "replica_while comparing decisions with #{slot_out}"
+    if config.debug == 1, do:
+      IO.puts "replica_while comparing decisions with #{slot_out}"
     if Map.has_key?(decisions, slot_out) do
       command_first = decisions[slot_out]
       {requests, proposals} = 
@@ -98,11 +102,13 @@ defmodule Replica do
       else
         {requests, proposals}
       end
-      ##IO.puts "replica_while_decisions get the command"
+      if config.debug == 1, do:
+        IO.puts "replica_while_decisions get the command"
       slot_out = perform config, decisions, command_first, slot_out, database
       while config, decisions, slot_out, proposals, requests, database
     else
-        ##IO.puts "replica_while_decisions don't have the command"
+        if config.debug == 1, do:
+          IO.puts "replica_while decisions don't have the command"
         {slot_out, requests, proposals}
     end
 
@@ -110,30 +116,25 @@ defmodule Replica do
 
 
   defp perform config, decisions, command, slot_out, database do
-    #command = {client, cid, op}
-    command = decisions[slot_out]
-    {_client, _cid, op} = command
-
-    exist = Enum.reduce 1..(slot_out-1), false, fn s, acc ->
-            acc or ((Map.has_key? decisions, s) and decisions[s] === command)
-          end   
-
-    if (exist == true)  do
-      ##IO.puts "perform test passed"
+    { client, cid, transaction } = command
+    executed = Map.to_list(decisions)
+    executed = Enum.filter(executed, fn({ s, _ }) -> s < slot_out end)
+    executed = Enum.map(executed, fn({ _, cmd }) -> cmd end)
+    executed = Enum.member?(executed, command)
+    if executed do
+      if config.debug == 1, do:
+        IO.puts "Replica_perform: the command did performed before"
       slot_out + 1
     else
-      ##IO.puts "perform test failed"
-      { client, cid, transaction } = command
-
-      #IO.inspect (IEx.Info.info(transaction))
+      if config.debug == 1 do
+        IO.puts "Replica_perform: perform a new command"
+        IO.inspect transaction
+      end
       send database, { :EXECUTE, transaction }
       slot_out = slot_out + 1
       send client, {:CLIENT_REPLY, cid, transaction}
       slot_out
-    end
-  end
+    end #end if
+  end #defp
 
-
-
-
-end
+end #end module

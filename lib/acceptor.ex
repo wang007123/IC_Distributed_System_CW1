@@ -9,14 +9,14 @@ defmodule Acceptor do
 
   defp next config, ballot_num, accepted do
     receive do
-      {:p1a, identifier, ballot_temp} ->
+      {:p1a, scount, ballot_temp} ->
         ballot_num = max(ballot_num, ballot_temp)
         if config.debug == 1, do:
           IO.puts "Acceptor send p1b to Scount"
-        send identifier, {:p1b, self(), ballot_num, accepted}
+        send scount, {:p1b, self(), ballot_num, accepted}
         next config, ballot_num, accepted
 
-      {:p2a, identifier, {ballot_temp, _, _} = pvalue} ->
+      {:p2a, commander, {ballot_temp, _, _} = pvalue} ->
         accepted =
           if ballot_temp == ballot_num do
             MapSet.put(accepted, pvalue)
@@ -25,7 +25,7 @@ defmodule Acceptor do
           end
         if config.debug == 1, do:
           IO.puts "Accepter send p2b to commander"
-        send identifier, {:p2b, self(), ballot_num}
+        send commander, {:p2b, self(), ballot_num}
         next config, ballot_num, accepted
       _ -> 
         IO.puts "!Acceptor-next function received unexpected msg"

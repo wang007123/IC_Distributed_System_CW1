@@ -1,9 +1,9 @@
-
+# Zhegnhui Wang(zw2520) and Linshan Li(ll3720)
 # distributed algorithms, n.dulay, 29 jan 21 
 # coursework, paxos made moderately complex
 
-SERVERS  = 1
-CLIENTS  = 1
+SERVERS  = 2
+CLIENTS  = 3
 CONFIG   = default
 DEBUG    = 0
 MAX_TIME = 15000
@@ -31,12 +31,22 @@ run cluster: compile
 	@ ${ELIXIR} server3_${NODE_SUFFIX} ${MIX} cluster_wait &
 	@ ${ELIXIR} server4_${NODE_SUFFIX} ${MIX} cluster_wait &
 	@ ${ELIXIR} server5_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} server6_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} server7_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} server8_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} server9_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} server10_${NODE_SUFFIX} ${MIX} cluster_wait &
 
 	@ ${ELIXIR} client1_${NODE_SUFFIX} ${MIX} cluster_wait &
 	@ ${ELIXIR} client2_${NODE_SUFFIX} ${MIX} cluster_wait &
 	@ ${ELIXIR} client3_${NODE_SUFFIX} ${MIX} cluster_wait &
 	@ ${ELIXIR} client4_${NODE_SUFFIX} ${MIX} cluster_wait &
 	@ ${ELIXIR} client5_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} client6_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} client7_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} client8_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} client9_${NODE_SUFFIX} ${MIX} cluster_wait &
+	@ ${ELIXIR} client10_${NODE_SUFFIX} ${MIX} cluster_wait &
 	@sleep 3
 	@ ${ELIXIR} multipaxos_${NODE_SUFFIX} ${MIX} cluster_start
 

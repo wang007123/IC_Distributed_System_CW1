@@ -1,4 +1,5 @@
 # paper https://paxos.systems/how/#how
+# Zhegnhui Wang(zw2520) and Linshan Li(ll3720)
 # distributed algorithms, n.dulay, 29 jan 21
 # coursework, paxos made moderately complex
 

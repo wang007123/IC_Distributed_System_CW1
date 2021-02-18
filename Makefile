@@ -1,9 +1,10 @@
 # Zhegnhui Wang(zw2520) and Linshan Li(ll3720)
+
 # distributed algorithms, n.dulay, 29 jan 21 
 # coursework, paxos made moderately complex
 
-SERVERS  = 2
-CLIENTS  = 3
+SERVERS  = 1
+CLIENTS  = 1
 CONFIG   = default
 DEBUG    = 0
 MAX_TIME = 15000

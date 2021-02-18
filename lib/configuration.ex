@@ -33,7 +33,7 @@ end
 
 # -----------------------------------------------------------------------------
 
-def params :faster do
+def params :custom_debug do
   config = params :default	# settings for faster throughput
  _config = Map.merge config,
   %{
@@ -42,6 +42,57 @@ def params :faster do
   }
 end
 
+def params :test_case_2_2 do
+  config = params :default  # settings for faster throughput
+ _config = Map.merge config,
+  %{
+    # ADD YOUR OWN PARAMETERS HERE
+    window: 100,
+  }
+end
+
+def params :test_case_4 do
+  config = params :default  # settings for faster throughput
+ _config = Map.merge config,
+  %{
+    # ADD YOUR OWN PARAMETERS HERE
+    crash_server: %{1 => 5000}
+  }
+end
+def params :test_case_5 do
+  config = params :default  # settings for faster throughput
+ _config = Map.merge config,
+  %{
+    # ADD YOUR OWN PARAMETERS HERE
+    crash_server: %{1 => 5000, 2 => 5000}
+  }
+end
+def params :test_case_6_1 do
+  config = params :default  # settings for faster throughput
+ _config = Map.merge config,
+  %{
+    # ADD YOUR OWN PARAMETERS HERE
+    max_requests: 100,
+  }
+end
+
+def params :test_case_6_2 do
+  config = params :default  # settings for faster throughput
+ _config = Map.merge config,
+  %{
+    # ADD YOUR OWN PARAMETERS HERE
+    window: 5000,
+  }
+end
+
+def params :test_case_7 do
+  config = params :default  # settings for faster throughput
+ _config = Map.merge config,
+  %{
+    # ADD YOUR OWN PARAMETERS HERE
+    window: 100,
+  }
+end
 # -----------------------------------------------------------------------------
 
 def params :debug1 do		# same as :default with debug_level: 1

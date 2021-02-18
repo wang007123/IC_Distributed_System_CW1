@@ -1,0 +1,68 @@
+mix compile
+Compiling 13 files (.ex)
+Generated multipaxos app
+--> Starting Multipaxos at multipaxos_08_kevin@127.0.0.1 (10.0.2.15)
+--> Starting Server1 at server1_08_kevin@127.0.0.1 (10.0.2.15)
+--> Starting Client1 at client1_08_kevin@127.0.0.1 (10.0.2.15)
+time = 1000      db updates done = [{1, 198}]
+time = 1000 client requests seen = [{1, 199}]
+time = 1000           total seen = 199 max lag = 1
+time = 1000            scouts up = [{1, 1}]
+time = 1000          scouts down = [{1, 1}]
+time = 1000        commanders up = [{1, 199}]
+time = 1000      commanders down = [{1, 199}]
+
+time = 2000      db updates done = [{1, 417}]
+time = 2000 client requests seen = [{1, 417}]
+time = 2000           total seen = 417 max lag = 0
+time = 2000            scouts up = [{1, 1}]
+time = 2000          scouts down = [{1, 1}]
+time = 2000        commanders up = [{1, 417}]
+time = 2000      commanders down = [{1, 417}]
+
+Exiting Node client9_08_kevin@127.0.0.1 - maxtime 5000 reached
+time = 3000      db updates done = [{1, 675}]
+time = 3000 client requests seen = [{1, 675}]
+time = 3000           total seen = 675 max lag = 0
+time = 3000            scouts up = [{1, 1}]
+time = 3000          scouts down = [{1, 1}]
+time = 3000        commanders up = [{1, 675}]
+time = 3000      commanders down = [{1, 675}]
+
+Exiting Node client10_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node client5_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server4_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node client3_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server5_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server7_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node client8_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server6_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server2_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node client1_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server1_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node client6_08_kevin@127.0.0.1 - maxtime 5000 reached
+time = 4000      db updates done = [{1, 935}]
+time = 4000 client requests seen = [{1, 935}]
+time = 4000           total seen = 935 max lag = 0
+time = 4000            scouts up = [{1, 1}]
+time = 4000          scouts down = [{1, 1}]
+time = 4000        commanders up = [{1, 935}]
+time = 4000      commanders down = [{1, 935}]
+
+Exiting Node server8_08_kevin@127.0.0.1 - maxtime 5000 reached
+  Client 1 going to sleep, sent = 1000
+Exiting Node client4_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node client2_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node client7_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server3_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server10_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node server9_08_kevin@127.0.0.1 - maxtime 5000 reached
+Exiting Node multipaxos_08_kevin@127.0.0.1 - maxtime 5000 reached
+time = 5000      db updates done = [{1, 1000}]
+time = 5000 client requests seen = [{1, 1000}]
+time = 5000           total seen = 1000 max lag = 0
+time = 5000            scouts up = [{1, 1}]
+time = 5000          scouts down = [{1, 1}]
+time = 5000        commanders up = [{1, 1000}]
+time = 5000      commanders down = [{1, 1000}]
+

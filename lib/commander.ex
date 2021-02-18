@@ -1,3 +1,4 @@
+# Zhegnhui Wang(zw2520) and Linshan Li(ll3720)
 defmodule Commander do
 
 def start config, leader, acceptors, replicas, {b, s, c} do

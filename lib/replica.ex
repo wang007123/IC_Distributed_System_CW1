@@ -6,7 +6,7 @@ defmodule Replica do
       {:BIND, leaders} ->
         if config.debug == 1, do:
           IO.puts "Replica created"
-        next config, 1, 1, MapSet.new, %{}, %{}, leaders, database
+        next config, 1, 1, MapSet.new, Map.new, Map.new, leaders, database
     end
   end
 
@@ -77,11 +77,11 @@ defmodule Replica do
       else
         command_prop = proposals_map[s_out]
         proposals_map = Map.delete(proposals_map, s_out)
-        request_mapset = 
+        request_mapset =
           if command_dec == command_prop do
-            request_mapset 
+           request_mapset
           else
-            MapSet.put(request_mapset, command_prop)
+          MapSet.put(request_mapset, command_prop)
           end
         {request_mapset, proposals_map} 
       end
@@ -136,9 +136,4 @@ defmodule Replica do
       {s_in, request_mapset, proposals_map}
     end
   end #end defp
-
-
-
-
-
 end #end module

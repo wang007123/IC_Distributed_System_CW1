@@ -8,7 +8,7 @@ defmodule Leader do
     receive do
       {:BIND, acceptor, replica} ->
         spawn Scout, :start, [config, self(), acceptor, ballot_num]
-        next config, ballot_num, false, %{}, acceptor, replica
+        next config, ballot_num, false, Map.new, acceptor, replica
       _ -> 
         IO.puts "Leader received unexpected msg"
     end
@@ -29,7 +29,6 @@ defmodule Leader do
             proposals_map
           end
         next config, ballot_num, active, proposals_map, acceptor, replicas
-
 
       {:adopted, ballot, pvals} ->
         proposals_map = update proposals_map, pmax MapSet.to_list(pvals)
